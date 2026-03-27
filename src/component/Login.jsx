@@ -1,17 +1,23 @@
 import { Activity, use, useRef, useState } from "react";
 import bgImg from "../assets/bgImg.png";
 import { isFormValid } from "../utils/formValidation";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
     const [login, setLogin] = useState(true)
     const [formValidMsg, setFormValidMsg] = useState(null)
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch()
     const email = useRef(null)
     const password = useRef(null)
+    const name = useRef(null)
+    const navigate = useNavigate()
 
     const togglePassword = () => {
       setShowPassword((prev) => !prev);
@@ -32,8 +38,24 @@ const Login = () => {
         createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
           .then((userCredential) => {
             const user = userCredential.user;
+
+            return updateProfile(user, {
+              displayName: name.current.value,
+              photoURL: "https://avatars.githubusercontent.com/u/135967143?v=4&size=64"
+            })
+          })
+          .then(() => {
+            const user = auth.currentUser
+            dispatch(addUser({
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+              photoURL: user.photoURL
+            }))
             console.log(user);
+            
             setLoading(false);
+            navigate("/browser")
           })
           .catch((error) => {
             const errorCode = error.code;
@@ -53,6 +75,7 @@ const Login = () => {
             const user = userCredential.user;
              console.log(user);
              setLoading(false);
+             navigate("/browser")
           })
           .catch((error) => {
             const errorCode = error.code;
@@ -91,6 +114,7 @@ const Login = () => {
                     Full Name
                   </label>
                   <input
+                    ref={name}
                     id="name"
                     type="text"
                     placeholder="Enter your full name"

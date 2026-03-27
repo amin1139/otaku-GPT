@@ -1,7 +1,9 @@
+import Header from './Header'
+
 const Body = () => {
   return (
     <>
-      
+      <Header/>
     </>
   );
 };
