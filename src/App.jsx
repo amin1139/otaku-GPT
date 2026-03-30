@@ -1,33 +1,22 @@
 import { createBrowserRouter, RouterProvider, useNavigate } from "react-router"
 import Login from "./component/Login"
 import Body from "./component/Body"
-import { useEffect } from "react"
-import { useDispatch } from "react-redux"
-import { addUser, removeUser } from "./utils/userSlice"
-import { onAuthStateChanged } from "firebase/auth"
-import { auth } from "./utils/firebase"
 import ErrorPage from "./component/ErrorPage"
-
-const router = createBrowserRouter([
-  { path: '/', element: <Login />, errorElement: <ErrorPage /> },
-  { path: '/browser', element: <Body />, errorElement: <ErrorPage /> },
-  { path: '/error', element: <ErrorPage /> }
-])
+import AuthListener from "./component/AuthListener";
 
 function App() {
 
-  const dispatch = useDispatch()
-
-  useEffect(()=>{
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const {uid, email, displayName, photoURL} = user;
-        dispatch(addUser({uid:uid, email:email,  displayName: displayName, photoURL: photoURL}))
-      } else {
-        dispatch(removeUser())
-      }
-    });
-  },[])
+  const router = createBrowserRouter([
+  {
+    element: <AuthListener />,
+    errorElement: <ErrorPage />,
+    children: [
+      { path: "/", element: <Login /> },
+      { path: "/browse", element: <Body /> },
+      { path: "/error", element: <ErrorPage /> },
+    ],
+  },
+]);
 
   return (
     <RouterProvider router={router}/>

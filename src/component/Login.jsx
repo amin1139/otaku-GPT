@@ -1,10 +1,9 @@
-import { Activity, use, useRef, useState } from "react";
+import { Activity, useRef, useState } from "react";
 import bgImg from "../assets/bgImg.png";
 import { isFormValid } from "../utils/formValidation";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { Eye, EyeOff } from "lucide-react";
-import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
@@ -17,7 +16,6 @@ const Login = () => {
     const email = useRef(null)
     const password = useRef(null)
     const name = useRef(null)
-    const navigate = useNavigate()
 
     const togglePassword = () => {
       setShowPassword((prev) => !prev);
@@ -41,7 +39,7 @@ const Login = () => {
 
             return updateProfile(user, {
               displayName: name.current.value,
-              photoURL: "https://avatars.githubusercontent.com/u/135967143?v=4&size=64"
+              photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb6vvTd36B7naiDcbKX0TcTqwu8ViekFPkjA&s"
             })
           })
           .then(() => {
@@ -55,7 +53,6 @@ const Login = () => {
             console.log(user);
             
             setLoading(false);
-            navigate("/browser")
           })
           .catch((error) => {
             const errorCode = error.code;
@@ -75,7 +72,6 @@ const Login = () => {
             const user = userCredential.user;
              console.log(user);
              setLoading(false);
-             navigate("/browser")
           })
           .catch((error) => {
             const errorCode = error.code;
