@@ -3,3 +3,5 @@ export const USER_AVTARS = [
     "https://avatars.githubusercontent.com/u/135967143?v=4&size=64",
     "https://www.whattacraft.in/web/image/product.template/166/image_1024?unique=9a1f306"
 ]
+
+export const PROMO_URL = "https://api.jikan.moe/v4/watch/promos"
