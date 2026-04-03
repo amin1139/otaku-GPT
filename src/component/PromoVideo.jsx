@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-// Extracts the video ID from any YouTube embed URL
-// and rebuilds a clean URL with autoplay + mute params.
-// Handles Jikan's malformed URLs like:
-//   .../embed/VIDEO_ID?si=XXX?enablejsapi=1&autoplay=1
 function buildYouTubeUrl(raw) {
   if (!raw) return null;
   const match = raw.match(/\/embed\/([a-zA-Z0-9_-]+)/);
@@ -36,7 +32,7 @@ const PromoVideo = ({ src, title, description }) => {
   }, [cleanSrc]);
 
   return (
-    <div className="relative w-full overflow-hidden bg-black" style={{ height: "min(100svh, 780px)", minHeight: "420px" }}>
+    <div className="relative w-full overflow-hidden bg-black h-[50svh] min-h-[300px] md:h-[min(100svh,780px)] md:min-h-[420px]">
 
       {/* ── YouTube iframe ── */}
       {cleanSrc && (
@@ -60,7 +56,6 @@ const PromoVideo = ({ src, title, description }) => {
         </div>
       )}
 
-      {/* ── Gradient overlay — left-heavy so text stays readable ── */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -73,7 +68,7 @@ const PromoVideo = ({ src, title, description }) => {
       />
 
       {/* ── Content ── */}
-      <div className="relative z-10 flex items-end h-full px-6 pb-14 md:px-14 lg:px-20">
+      <div className="relative z-10 bottom-30 flex items-end h-full px-6 pb-14 md:px-14 lg:px-20">
         <div className="text-white max-w-lg w-full">
 
           {/* Title */}
