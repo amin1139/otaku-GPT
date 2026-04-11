@@ -11,7 +11,7 @@ const useSeasonAnimeList = () => {
 
     useEffect(() => {
         if (seasonAnime) return // already data hai, fetch mat karo
-        const t = setTimeout(() => setUrl(SEASON_ANIME_URL), 1000) // 1000ms delay
+        const t = setTimeout(() => setUrl(SEASON_ANIME_URL), 500) // 1000ms delay
         return () => clearTimeout(t)
     }, [])
 

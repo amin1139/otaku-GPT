@@ -13,3 +13,48 @@
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes rotate-border {
+  to { --angle: 360deg; }
+}
+
+.glow-border-btn {
+  position: relative;
+  display: inline-flex;
+  border-radius: 9999px;
+  padding: 1.5px;
+  background: conic-gradient(from var(--angle), #6366f1, #8b5cf6, #ec4899, #ef4444, #f97316, #84cc16, #06b6d4, #6366f1);
+  animation: rotate-border 4s linear infinite;
+}
+
+.glow-border-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: conic-gradient(from var(--angle), #6366f1, #8b5cf6, #ec4899, #ef4444, #f97316, #84cc16, #06b6d4, #6366f1);
+  animation: rotate-border 4s linear infinite;
+  filter: blur(25px);
+  opacity: 0.4;
+  z-index: -1;
+  transform: translateY(8px) scaleX(0.85);
+}
+
+.glow-border-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: conic-gradient(from var(--angle), #6366f1, #8b5cf6, #ec4899, #ef4444, #f97316, #84cc16, #06b6d4, #6366f1);
+  animation: rotate-border 4s linear infinite;
+  filter: blur(10px);
+  opacity: 0.45;
+  z-index: -1;
+  transform: translateY(5px) scaleX(0.9);
+}

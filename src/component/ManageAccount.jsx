@@ -12,7 +12,6 @@ const ManageAccount = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  console.log(selectedAvatar);
   const handleUpdate = () => {
     if (!userName.trim()) return;
     setLoading(true);

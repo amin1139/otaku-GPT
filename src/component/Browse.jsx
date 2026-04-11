@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-// import useAnimePromo from "../hooks/useAnimePromo";
 import { useSelector } from "react-redux";
-import { Store } from "lucide-react";
 import PromoVideo from "./PromoVideo";
 import AnimeListContainer from "./AnimeListContainer";
 import useTopAnimeList from "../hooks/useTopAnimeList";
 import useSeasonAnimeList from "../hooks/useSeasonAnimeList";
 import CardSkeletonLoader from "./SkeletonLoading";
 import PromoSkeleton from "./PromoSkeleton";
+import FindGpt from "./FindGpt";
 
 const Browse = () => {
   const { loading: topListLoading } = useTopAnimeList()
@@ -16,18 +15,21 @@ const Browse = () => {
   const promo = useSelector((store) => store.anime.promo)
   const topAnimeList = useSelector((store) => store.anime.topAnime)
   const seasonAnimeList = useSelector((store) => store.anime.seasonAnime)
+  const isFindGptBtnActive = useSelector((store) => store.FindGpt.isActive)
+
+  if(isFindGptBtnActive) return <FindGpt/>
 
   if (topListLoading || promo === null){
     return(
       <>
       <div className="w-full min-h-screen" style={{ background: "linear-gradient(to right, #000000, #152331)" }}>
-      <PromoSkeleton/>
-      <SkeletonRow />
+        <PromoSkeleton/>
+        <SkeletonRow />
       </div>
       </>
       
     )
-  } 
+  }
 
   return (
     <div className="w-full min-h-screen" style={{ background: "linear-gradient(to right, #000000, #152331)" }}>
@@ -51,9 +53,9 @@ const Browse = () => {
 }
 
 const SkeletonRow = () => (
-  <div className="mt-4 flex gap-3 overflow-x-auto px-4 scrollbar-hide">
+  <div className="mt-4 flex overflow-x-auto px-4 scrollbar-hide">
     {Array.from({ length: 6 }).map((_, i) => (
-      <div key={i} className="flex-shrink-0 md:w-44 mr-13">
+      <div key={i} className="w-36 sm:w-44 md:w-52 flex-shrink-0 mr-3">
         <CardSkeletonLoader />
       </div>
     ))}

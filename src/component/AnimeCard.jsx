@@ -1,7 +1,7 @@
 const AnimeCard = ({anime }) => {
 
   return (
-    <div className="group relative w-52 flex-shrink-0 cursor-pointer">
+    <div className="group relative w-full flex-shrink-0 cursor-pointer ">
       {/* Card Image Wrapper */}
       <div className="relative w-full aspect-[2/3] rounded-xl overflow-hidden shadow-lg shadow-black/50">
         {/* Poster Image */}
@@ -42,7 +42,7 @@ const AnimeCard = ({anime }) => {
       {/* Text Below Card */}
       <div className="mt-2 px-0.5">
         <h3 className="text-white text-sm font-semibold leading-snug line-clamp-2 group-hover:text-[#E50914] transition-colors duration-200">
-          {anime?.title_english}
+          {anime?.title_english || anime?.title}
         </h3>
         <p className="text-zinc-500 text-xs mt-0.5 truncate">{anime?.genres.map(genre => genre.name).join(', ')}</p>
       </div>

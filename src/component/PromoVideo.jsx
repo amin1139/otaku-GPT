@@ -20,7 +20,6 @@ function buildYouTubeUrl(raw) {
 const PromoVideo = ({ src, title, description }) => {
   const cleanSrc = buildYouTubeUrl(src);
   const [ready, setReady] = useState(false);
-  console.log(src);
   
 
   // Fade the iframe in after a short delay
@@ -44,8 +43,8 @@ const PromoVideo = ({ src, title, description }) => {
             className="absolute top-1/2 left-1/2 pointer-events-none border-0"
             style={{
               transform: "translate(-50%, -50%)",
-              width: "177.78vh",   /* 16/9 × 100vh */
-              height: "56.25vw",   /* 9/16 × 100vw */
+              width: "177.78vh",  
+              height: "56.25vw",   
               minWidth: "100%",
               minHeight: "100%",
             }}

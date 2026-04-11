@@ -5,7 +5,6 @@ const AnimeListContainer = ({ title, animeList }) => {
   const scrollRef = useRef(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(true);
-    console.log(animeList);
     
   const SCROLL_AMOUNT = 400;
 
@@ -46,7 +45,7 @@ const AnimeListContainer = ({ title, animeList }) => {
           onClick={() => scroll("left")}
           className={`
             absolute left-0 top-0 z-10 h-full w-12 flex items-center justify-center
-            bg-gradient-to-r from-black/80 to-transparent
+            bg-linear-to-r from-black/80 to-transparent
             text-white transition-all duration-300 rounded-l-md
             hover:from-black/95 hover:text-[#E50914]
             ${showLeft ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
@@ -69,7 +68,7 @@ const AnimeListContainer = ({ title, animeList }) => {
           "
         >
           {animeList.map((anime) => (
-            <div key={anime?.mal_id} className="flex-shrink-0">
+            <div key={anime?.mal_id} className="w-36 sm:w-44 md:w-52 shrink-0">
               <AnimeCard anime={anime} />
             </div>
           ))}

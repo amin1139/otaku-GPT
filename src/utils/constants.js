@@ -7,3 +7,4 @@ export const USER_AVTARS = [
 export const PROMO_URL = "https://api.jikan.moe/v4/watch/promos"
 export const TOP_ANIME_URL = "https://api.jikan.moe/v4/top/anime"
 export const SEASON_ANIME_URL = "https://api.jikan.moe/v4/seasons/now"
+export const AI_KEY = import.meta.env.VITE_AI_KEY
