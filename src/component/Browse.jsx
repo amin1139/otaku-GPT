@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import PromoVideo from "./PromoVideo";
 import AnimeListContainer from "./AnimeListContainer";
@@ -6,7 +6,7 @@ import useTopAnimeList from "../hooks/useTopAnimeList";
 import useSeasonAnimeList from "../hooks/useSeasonAnimeList";
 import CardSkeletonLoader from "./SkeletonLoading";
 import PromoSkeleton from "./PromoSkeleton";
-import FindGpt from "./FindGpt";
+const FindGpt = lazy(() => import('./FindGpt'))
 
 const Browse = () => {
   const { loading: topListLoading } = useTopAnimeList()
@@ -17,7 +17,12 @@ const Browse = () => {
   const seasonAnimeList = useSelector((store) => store.anime.seasonAnime)
   const isFindGptBtnActive = useSelector((store) => store.FindGpt.isActive)
 
-  if(isFindGptBtnActive) return <FindGpt/>
+  if (isFindGptBtnActive)
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <FindGpt />
+      </Suspense>
+    );
 
   if (topListLoading || promo === null){
     return(
@@ -39,13 +44,13 @@ const Browse = () => {
       {/* Top Anime Section */}
       {topListLoading
         ? <SkeletonRow />
-        : <AnimeListContainer title={"Top Anime"} animeList={topAnimeList || []} />
+        : <AnimeListContainer title={"Top Anime"} animeList={topAnimeList || [] } type="top" />
       }
 
       {/* Season Anime Section */}
       {seasonLoading
         ? <SkeletonRow />
-        : <AnimeListContainer title={"Season Anime"} animeList={seasonAnimeList || []} />
+        : <AnimeListContainer title={"Season Anime"} animeList={seasonAnimeList || []} type="season" />
       }
 
     </div>

@@ -1,7 +1,8 @@
 import { useRef, useState, useCallback } from "react";
 import AnimeCard from "./AnimeCard"; // your existing component
+import { Link } from "react-router";
 
-const AnimeListContainer = ({ title, animeList }) => {
+const AnimeListContainer = ({ title, animeList, type }) => {
   const scrollRef = useRef(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(true);
@@ -30,12 +31,14 @@ const AnimeListContainer = ({ title, animeList }) => {
         <h2 className="text-white font-bold text-xl md:text-2xl tracking-wide uppercase">
           {title}
         </h2>
-        <span className="ml-2 text-[#E50914] text-sm font-semibold opacity-0 group-hover/section:opacity-100 transition-opacity duration-300 cursor-pointer flex items-center gap-1">
+        <Link to={`explore?type=${type}`}>
+        <span className="ml-2 text-[#E50914] text-sm font-semibold cursor-pointer flex items-center gap-1">
           Explore All
           <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </span>
+        </Link>
       </div>
 
       {/* Scroll Container */}

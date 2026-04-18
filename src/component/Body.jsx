@@ -1,11 +1,11 @@
-import Browse from './Browse';
+import { Outlet } from 'react-router';
 import Header from './Header'
 
 const Body = () => {
   return (
     <>
       <Header/>
-      <Browse/>
+      <Outlet/>
     </>
   );
 };

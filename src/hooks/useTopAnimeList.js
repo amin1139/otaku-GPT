@@ -10,8 +10,8 @@ const useTopAnimeList = () => {
     const [url, setUrl] = useState(null)
 
     useEffect(() => {
-        if (topAnime) return // already data hai, fetch mat karo
-        const t = setTimeout(() => setUrl(TOP_ANIME_URL), 0) // 500ms delay
+        if (topAnime) return 
+        const t = setTimeout(() => setUrl(TOP_ANIME_URL), 0) 
         return () => clearTimeout(t)
     }, [])
 
