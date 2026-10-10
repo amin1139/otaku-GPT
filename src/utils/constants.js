@@ -4,7 +4,10 @@ export const USER_AVTARS = [
     "https://www.whattacraft.in/web/image/product.template/166/image_1024?unique=9a1f306"
 ]
 
-export const PROMO_URL = "https://api.jikan.moe/v4/watch/promos"
-export const TOP_ANIME_URL = "https://api.jikan.moe/v4/top/anime"
-export const SEASON_ANIME_URL = "https://api.jikan.moe/v4/seasons/now"
+// export const PROMO_URL = "https://api.jikan.moe/v4/watch/promos"
+// export const TOP_ANIME_URL = "https://api.jikan.moe/v4/top/anime"
+// export const SEASON_ANIME_URL = "https://api.jikan.moe/v4/seasons/now"
+
+export const ANILIST_URL = "https://graphql.anilist.co"
+
 export const AI_KEY = import.meta.env.VITE_AI_KEY

@@ -5,6 +5,7 @@ import useTopAnimeList from "../hooks/useTopAnimeList";
 import useSeasonAnimeList from "../hooks/useSeasonAnimeList";
 import CardSkeletonLoader from "./SkeletonLoading";
 import { useEffect, useState, useRef, useCallback } from "react";
+import { anilistRequest, topAnimeBody, seasonAnimeBody, normalizeAnime } from "../utils/anilist";
 
 const ExploreAll = () => {
   const [animeData, setAnimeData] = useState([]);
@@ -26,9 +27,6 @@ const ExploreAll = () => {
   const animeList = isTop ? topAnimeList : seasonAnimeList;
   const heading = isTop ? "Top Anime" : "Season Anime";
   const loading = isTop ? topLoading : seasonLoading;
-  const url = isTop
-    ? "https://api.jikan.moe/v4/top/anime"
-    : "https://api.jikan.moe/v4/seasons/now";
 
   useEffect(() => {
     if (animeList.length > 0) {
@@ -46,14 +44,15 @@ const ExploreAll = () => {
 
     try {
       const nextPage = page + 1;
-      const res = await fetch(`${url}?page=${nextPage}`);
-      const data = await res.json();
+      const body = isTop ? topAnimeBody(nextPage) : seasonAnimeBody(nextPage);
+      const { Page } = await anilistRequest(body);
 
-      if (!data.data || data.data.length === 0) {
-        setHasMore(false); 
+      if (!Page.media || Page.media.length === 0) {
+        setHasMore(false);
       } else {
-        setAnimeData((prev) => [...prev, ...data.data]);
+        setAnimeData((prev) => [...prev, ...Page.media.map(normalizeAnime)]);
         setPage(nextPage);
+        if (!Page.pageInfo.hasNextPage) setHasMore(false);
       }
     } catch (err) {
       console.error("Fetch failed:", err);
@@ -61,12 +60,11 @@ const ExploreAll = () => {
       setShowShimmer(false);
       isFetching.current = false;
     }
-  }, [page, url, hasMore]);
+  }, [page, isTop, hasMore]);
 
   // Scroll listener
   useEffect(() => {
     const handleScroll = () => {
-      
       const nearBottom =
         window.scrollY + window.innerHeight >= document.body.scrollHeight - 200;
 

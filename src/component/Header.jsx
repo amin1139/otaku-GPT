@@ -12,11 +12,10 @@ import {
 } from "lucide-react";
 import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useLocation } from "react-router";
+import { useSelector } from "react-redux";
 import Modal from "./Modal";
 import ManageAccount from "./ManageAccount";
-import { toggleActiveBtn } from "../utils/findGptSlice";
 
 const NAV_LINKS = [
   { label: "Home", icon: Home, href: "#" },
@@ -33,8 +32,8 @@ export default function Header() {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
-  const isFindGptBtnActive = useSelector((store) => store.FindGpt.isActive)
-  const dispatch = useDispatch()
+  const location = useLocation()
+  const isFindGptBtnActive = location.pathname === "/browse/find"
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -63,10 +62,9 @@ export default function Header() {
     setManageUserIsOpen(true);
   };
 
-  const handleFindGptBtn =() =>{
-    dispatch(toggleActiveBtn())
+  const handleFindGptBtn = () => {
+    navigate(isFindGptBtnActive ? "/browse" : "/browse/find")
   }
-
   return (
     <>
       {/* Keyframe animations that need to be in CSS */}

@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import groq from "../utils/ai";
 import { useDispatch } from "react-redux";
 import { findAnimeList, findAnimeLoading } from "../utils/findGptSlice";
+import { anilistRequest, searchAnimeBody, normalizeAnime } from "../utils/anilist";
 
 const SearchBar = () => {
   const [searchBtnDisbale, setSearchBtnDisable] = useState(false)
@@ -23,17 +24,14 @@ const SearchBar = () => {
     })
     const animeList = response.choices[0].message.content.split(",").map(name => name.trim());
 
-    // fetch data from jikan
+    // fetch data from AniList
 
     const results = [];
     for (let i = 0; i < animeList.length; i++) {
       if (i > 0) await new Promise((r) => setTimeout(r, 400));
-      const jikanRes = await fetch(
-        `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(animeList[i])}&limit=1`,
-      );
-      const jikanData = await jikanRes.json();
-      const anime = jikanData.data?.[0];
-      if (anime) results.push(anime);      
+      const data = await anilistRequest(searchAnimeBody(animeList[i]));
+      const anime = data.Page.media?.[0];
+      if (anime) results.push(normalizeAnime(anime));
     }
     dispatch(findAnimeList(results))
   } catch (err) {

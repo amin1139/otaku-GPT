@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy } from "react";
 import { useSelector } from "react-redux";
 import PromoVideo from "./PromoVideo";
 import AnimeListContainer from "./AnimeListContainer";
@@ -16,13 +16,6 @@ const Browse = () => {
   const topAnimeList = useSelector((store) => store.anime.topAnime)
   const seasonAnimeList = useSelector((store) => store.anime.seasonAnime)
   const isFindGptBtnActive = useSelector((store) => store.FindGpt.isActive)
-
-  if (isFindGptBtnActive)
-    return (
-      <Suspense fallback={<div>Loading...</div>}>
-        <FindGpt />
-      </Suspense>
-    );
 
   if (topListLoading || promo === null){
     return(

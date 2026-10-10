@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react"
 
-const useFetchApi = (url) => {
+// GET by default. If `body` is passed, it does a JSON POST (needed for GraphQL).
+const useFetchApi = (url, body = null) => {
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
+
+    const bodyKey = body ? JSON.stringify(body) : null
 
     useEffect(() => {
         if (!url) return
@@ -16,7 +19,16 @@ const useFetchApi = (url) => {
             setError(null)
 
             try {
-                const response = await fetch(url)
+                const response = await fetch(
+                    url,
+                    bodyKey
+                        ? {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json", Accept: "application/json" },
+                              body: bodyKey,
+                          }
+                        : undefined
+                )
 
                 if (response.status === 429) {
                     // Rate limited — retry after delay
@@ -27,9 +39,10 @@ const useFetchApi = (url) => {
                     return
                 }
 
-                if (!response.ok) throw new Error(`HTTP error: ${response.status}`)
-
                 const json = await response.json()
+                if (!response.ok || json.errors) {
+                    throw new Error(json.errors?.[0]?.message || `HTTP error: ${response.status}`)
+                }
                 if (!cancelled) setData(json)
 
             } catch (err) {
@@ -45,7 +58,7 @@ const useFetchApi = (url) => {
             cancelled = true
             clearTimeout(retryTimeout)
         }
-    }, [url])
+    }, [url, bodyKey])
 
     return { data, loading, error }
 }
